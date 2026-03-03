@@ -1,0 +1,114 @@
+<!-- Hero Section -->
+<section class="services-hero fade-in">
+    <div class="container">
+        <h1>Our Beauty Services</h1>
+        <p>Experience top-tier beauty care with customized treatments designed to enhance your natural glow.</p>
+    </div>
+</section>
+
+<!-- Controls Section -->
+<div class="container" style="margin-bottom: 30px; text-align: center;">
+    <div class="filter-wrapper"
+        style="margin-bottom: 20px; display: flex; justify-content: center; flex-wrap: wrap; gap: 10px;">
+        <input type="text" [(ngModel)]="searchTerm" class="filter-input search-input-wide"
+            placeholder="Search services...">
+        <div class="lunara-input-pill price-pill">
+            <div class="slider-container">
+                <div class="slider-track" [style.background]="getTrackStyle()"></div>
+                <input type="range" min="0" max="500" [value]="minPrice()" (input)="handleMinChange($event)"
+                    class="slider-1">
+                <input type="range" min="0" max="500" [value]="maxPrice()" (input)="handleMaxChange($event)"
+                    class="slider-2">
+            </div>
+            <div class="price-label">
+                GEL {{minPrice()}} — GEL {{maxPrice()}}
+            </div>
+        </div>
+        <select [(ngModel)]="minRating" class="filter-input"
+            style="padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: 'Playfair Display', serif; outline: none;">
+            <option [ngValue]="null">Any Rating</option>
+            <option [ngValue]="4.0">⭐ 4.0 & Up</option>
+            <option [ngValue]="4.5">⭐ 4.5 & Up</option>
+            <option [ngValue]="4.8">⭐ 4.8 & Up</option>
+            <option [ngValue]="5.0">⭐ 5.0 Only</option>
+        </select>
+    </div>
+
+    @if (isAdmin()) {
+    <div>
+        <button (click)="addService()" class="btn-add-service"><i class="fas fa-plus"></i> Add New Service</button>
+    </div>
+    }
+</div>
+
+<!-- Services Grid -->
+<section class="services-section">
+    <div class="container services-grid" id="servicesGrid">
+        @if (isLoading()) {
+        <div class="loading-spinner-container">
+            <mat-spinner diameter="50"></mat-spinner>
+        </div>
+        } @else if (filteredServices().length === 0) {
+        <p style="text-align:center; width:100%;">No services found.</p>
+        } @else {
+        @for (service of filteredServices(); track service.id) {
+        <div class="service-box fade-up" style="position: relative;">
+            <!-- Favorites Icon for logged-in users -->
+            @if (auth.currentUser()) {
+            <div style="position:absolute; top:15px; left:15px; z-index: 10;">
+                <i class="fa-heart" [ngClass]="favoritesService.isFavorite(service.id) ? 'fa-solid' : 'fa-regular'"
+                    (click)="favoritesService.toggleFavorite(service); $event.stopPropagation()"
+                    style="color: #c88b8b; cursor: pointer; font-size: 22px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); transition: transform 0.2s;"
+                    onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'"
+                    title="Toggle Favorite"></i>
+            </div>
+            }
+
+            @if (isAdmin()) {
+            <div style="position:absolute; top:15px; right:15px; display:flex; gap:12px;">
+                <i class="fas fa-edit" (click)="editService(service)"
+                    style="color:#c88b8b; cursor:pointer; font-size:18px;" title="Edit"></i>
+                <i class="fas fa-times" (click)="deleteService(service.id)"
+                    style="color:#b75c83; cursor:pointer; font-size:20px;" title="Delete"></i>
+            </div>
+            }
+
+            @if (getServiceImage(service)) {
+            <div class="service-image-container" (click)="openServiceDetails(service)" style="cursor: pointer;">
+                <img [src]="getServiceImage(service)" [alt]="service.name" class="service-image">
+            </div>
+            }
+
+            <h3 (click)="openServiceDetails(service)" style="cursor: pointer; transition: color 0.3s;"
+                onmouseover="this.style.color='#e2aeb3'" onmouseout="this.style.color='#2c3e50'">
+                {{ service.name }}
+            </h3>
+            <p>{{ service.description || 'No description available.' }}</p>
+
+            <div style="margin: 10px 0; color: #f39c12; font-size: 14px;">
+                <i class="fas fa-star"></i> {{ service.rating || '5.0' }} / 5
+            </div>
+
+            <button class="price" style="margin-top: 5px; width: 100%;">GEL {{ service.price }}</button>
+
+            @if (!isAdmin()) {
+            <button class="btn-cart" (click)="addToCart(service)" style="margin-top: 10px;">Add to Cart</button>
+            }
+        </div>
+        }
+        }
+    </div>
+</section>
+
+<!-- Service Details Modal Overlay -->
+@if (detailedService()) {
+<app-service-details-modal [service]="detailedService()!" [imageUrl]="getServiceImage(detailedService()!)"
+    (close)="closeServiceDetails()" (requestRate)="openRating()">
+</app-service-details-modal>
+}
+
+<!-- Admin Service Modal Overlay -->
+@if (showAdminModal()) {
+<app-admin-service-modal [service]="editingService()" (close)="closeAdminModal()" (save)="saveService($event)">
+</app-admin-service-modal>
+}

@@ -1,0 +1,55 @@
+<!-- Learn about -->
+<section class="about-hero fade-in">
+    <div class="hero-content">
+        <div class="hero-image">
+            <img src="assets/images/aboutimg.png" alt="Lunara Beauty Studio">
+        </div>
+        <div class="hero-text">
+            <h1>Learn About Lunara Beauty</h1>
+            <p>
+                Lunara Beauty is a modern beauty brand dedicated to offering exceptional products and professional
+                procedures
+                that enhance your natural elegance. From luxurious skincare lines to personalized beauty treatments,
+                we combine innovation, expertise, and care to help you radiate confidence every day.
+            </p>
+            <a routerLink="/services" class="btn-outline">Explore More</a>
+        </div>
+    </div>
+</section>
+
+
+<!-- Mission and Vision -->
+<section class="mission-vision container">
+    <div class="mission">
+        <h3>Our Mission</h3>
+        <p>
+            To provide exceptional beauty experiences that empower confidence and elevate natural elegance
+            through high-quality products and personalized care.
+        </p>
+    </div>
+    <div class="vision">
+        <h3>Our Vision</h3>
+        <p>
+            To become a leading name in the beauty industry, celebrated for innovation, inclusivity,
+            and a deep understanding of what makes every individual unique.
+        </p>
+    </div>
+</section>
+
+<!-- Reviews Section -->
+<section class="reviews" (mouseenter)="stopAutoSlide()" (mouseleave)="startAutoSlide()">
+    <h2>What Our Clients Say</h2>
+    <div class="review-container">
+        @for (review of reviews; track review.author; let i = $index) {
+        <div class="review-card" [style.display]="i === currentIndex() ? 'block' : 'none'"
+            [class.fade-in]="i === currentIndex()">
+            <p>“{{ review.text }}”</p>
+            <h4>– {{ review.author }}</h4>
+        </div>
+        }
+    </div>
+    <div class="carousel-controls" style="margin-top: 20px;">
+        <button (click)="prevSlide()" style="margin-right: 10px; padding: 5px 10px; cursor: pointer;">&lt;</button>
+        <button (click)="nextSlide()" style="padding: 5px 10px; cursor: pointer;">&gt;</button>
+    </div>
+</section>

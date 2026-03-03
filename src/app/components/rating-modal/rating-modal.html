@@ -1,0 +1,48 @@
+<div class="rating-overlay rating-fade-in" (click)="closeModal()">
+    <div class="rating-modal rating-popup" (click)="stopPropagation($event)">
+        <button class="close-btn" (click)="closeModal()">
+            <i class="fas fa-times"></i>
+        </button>
+
+        <h3 class="modal-title">Rate Service</h3>
+        <p class="modal-subtitle">We value your feedback! Let us know how we did.</p>
+
+        <!-- Star selection -->
+        <div class="rating">
+            @for (i of [5,4,3,2,1]; track i) {
+            <input type="radio" [id]="'star-' + i" name="star-radio" [value]="i" (change)="setRating(i)"
+                [checked]="rating === i">
+            <label [for]="'star-' + i">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path pathLength="360"
+                        d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.45,13.97L5.82,21L12,17.27Z">
+                    </path>
+                </svg>
+            </label>
+            }
+        </div>
+        <div class="rating-text">You are giving {{ rating }} stars</div>
+
+        <!-- Form fields -->
+        <div class="form-group">
+            <label>First Name</label>
+            <input type="text" [(ngModel)]="firstName" class="form-input" disabled>
+        </div>
+
+        <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" [(ngModel)]="lastName" class="form-input" disabled>
+        </div>
+
+        <div class="form-group">
+            <label>Your Review (Optional)</label>
+            <textarea [(ngModel)]="reviewText" class="form-input form-textarea" rows="3"
+                placeholder="Tell us about your experience..."></textarea>
+        </div>
+
+        <div class="actions">
+            <button class="btn-cancel" (click)="closeModal()">Cancel</button>
+            <button class="btn-ok" (click)="submit()">OK</button>
+        </div>
+    </div>
+</div>

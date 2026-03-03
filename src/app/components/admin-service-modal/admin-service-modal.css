@@ -1,0 +1,138 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(59, 42, 53, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    padding: 20px;
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background: #fff;
+    padding: 40px;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 600px;
+    position: relative;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    max-height: 90vh;
+    overflow-y: auto;
+    z-index: 10000;
+}
+
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    font-size: 32px;
+    cursor: pointer;
+    color: #888;
+    transition: 0.3s;
+    line-height: 1;
+}
+
+.close-btn:hover {
+    color: #e2aeb3;
+    transform: rotate(90deg);
+}
+
+.modal-header {
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.modal-header h2 {
+    color: #3b2a35;
+    font-size: 28px;
+    margin-bottom: 8px;
+    font-family: 'Playfair Display', serif;
+}
+
+.modal-header p {
+    color: #777;
+    font-size: 15px;
+}
+
+/* Admin Form Styling */
+.admin-form .form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.admin-form .form-row {
+    display: flex;
+    gap: 20px;
+}
+
+.admin-form .half {
+    flex: 1;
+}
+
+.admin-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #4a3b3b;
+    font-size: 15px;
+}
+
+.admin-form input,
+.admin-form textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+    font-family: 'Poppins', sans-serif;
+    outline: none;
+    transition: all 0.3s ease;
+    background-color: #fafafa;
+}
+
+.admin-form input:focus,
+.admin-form textarea:focus {
+    border-color: #e2aeb3;
+    background-color: #fff;
+    box-shadow: 0 0 0 3px rgba(226, 174, 179, 0.2);
+}
+
+.admin-form small {
+    display: block;
+    margin-top: 5px;
+    color: #999;
+    font-size: 13px;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 35px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.modal-actions .btn {
+    padding: 10px 25px;
+}
+
+/* Scrollbar styling for modal */
+.modal-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+    background: #e2aeb3;
+    border-radius: 4px;
+}

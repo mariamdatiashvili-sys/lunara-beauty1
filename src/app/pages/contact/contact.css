@@ -1,0 +1,141 @@
+:host {
+    display: block;
+}
+
+/* ===== CONTACT PAGE ===== */
+.contact-section {
+    display: flex;
+    min-height: calc(100vh - 70px);
+    background: #fbe9ef;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 0;
+}
+
+.contact-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    max-width: 100%;
+}
+
+.contact-image {
+    border-radius: 50px;
+}
+
+.contact-image img {
+    height: 100%;
+    object-fit: cover;
+}
+
+.contact-form {
+    background-color: #fbe9ef;
+    padding: 60px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.contact-form h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem;
+    color: #682d3b;
+    text-align: center;
+    margin-bottom: 10px;
+    margin-top: 0;
+}
+
+.contact-form p {
+    color: #4a3a3f;
+    margin-bottom: 30px;
+    max-width: 450px;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    color: #682d3b;
+    font-weight: 500;
+    font-size: 0.95rem;
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+    border: none;
+    border-bottom: 2px solid #a86c7f;
+    padding: 8px;
+    background: transparent;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    color: #3b2a35;
+    outline: none;
+    transition: border-color 0.3s ease;
+    border-radius: 0;
+    /* Override user agent stylesheet corners */
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #d6749d;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.btn-submit {
+    background: #682d3b;
+    color: #fff;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    align-self: flex-start;
+    font-family: 'Playfair Display', serif;
+}
+
+.btn-submit:hover {
+    background: #a14c64;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 900px) {
+    .contact-container {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-image {
+        display: none;
+    }
+
+    .contact-form {
+        padding: 50px 30px;
+        text-align: center;
+        align-items: center;
+    }
+
+    .form-row {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .form-group {
+        width: 100%;
+        text-align: left;
+    }
+}

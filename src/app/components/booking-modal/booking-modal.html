@@ -1,0 +1,29 @@
+<div class="modal" [class.show]="isOpen" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        <span class="close-modal" (click)="closeModal()">&times;</span>
+        <h2>Book Your Service</h2>
+        <form (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <label for="serviceName">Service</label>
+                <input type="text" id="serviceName" name="service" [value]="serviceName" readonly>
+            </div>
+            <div class="form-group">
+                <label for="bookingDate">Date</label>
+                <input type="date" id="bookingDate" name="date" [(ngModel)]="bookingDate" required>
+            </div>
+            <div class="form-group">
+                <label for="bookingTime">Time</label>
+                <input type="time" id="bookingTime" name="time" [(ngModel)]="bookingTime" required>
+            </div>
+            <div class="form-group">
+                <label for="clientName">Your Name</label>
+                <input type="text" id="clientName" name="name" [(ngModel)]="clientName" required>
+            </div>
+            <div class="form-group">
+                <label for="clientPhone">Phone Number</label>
+                <input type="tel" id="clientPhone" name="phone" [(ngModel)]="clientPhone" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Confirm Booking</button>
+        </form>
+    </div>
+</div>

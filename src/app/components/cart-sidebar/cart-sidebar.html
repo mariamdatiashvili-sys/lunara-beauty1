@@ -1,0 +1,28 @@
+<div class="cart-overlay" [class.active]="isOpen()" (click)="close()"></div>
+
+<div class="cart-sidebar" [class.open]="isOpen()">
+    <div class="cart-header">
+        <h3>Your Cart</h3>
+        <span class="close-btn" (click)="close()">&times;</span>
+    </div>
+    <div class="cart-items">
+        @if (cart().length === 0) {
+        <p class="empty-msg">Your cart is empty.</p>
+        } @else {
+        @for (item of cart(); track $index) {
+        <div class="cart-item">
+            <div class="item-info">
+                <h4>{{ item.name }}</h4>
+                <p>{{ item.quantity }} x GEL {{ item.price }}</p>
+            </div>
+            <button class="remove-btn" (click)="remove($index)">&times;</button>
+        </div>
+        }
+        }
+    </div>
+    <div class="cart-footer">
+        <div class="cart-total">Total: GEL <span id="cartTotal">{{ total() | number:'1.2-2' }}</span></div>
+        <button class="btn btn-primary" (click)="checkout()" style="width: 100%; margin-bottom: 10px;">Checkout</button>
+        <button class="btn btn-outline" (click)="clear()" style="width: 100%;">Clear Cart</button>
+    </div>
+</div>

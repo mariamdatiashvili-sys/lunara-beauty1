@@ -1,0 +1,18 @@
+<app-banner></app-banner>
+<app-navbar></app-navbar>
+
+<div class="cart-icon" (click)="cartService.isOpen.set(true)">
+    <i class="fas fa-shopping-bag"></i>
+    <span id="cartCount">{{ cartService.itemCount() }}</span>
+</div>
+
+<app-cart-sidebar></app-cart-sidebar>
+<app-favorites-sidebar></app-favorites-sidebar>
+
+<router-outlet></router-outlet>
+<app-footer></app-footer>
+
+@if (ratingService.isOpen()) {
+<app-rating-modal (close)="ratingService.close()" (submitRating)="ratingService.submitRating($event)">
+</app-rating-modal>
+}

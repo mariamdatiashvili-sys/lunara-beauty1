@@ -1,0 +1,102 @@
+<div class="modal-overlay" (click)="closeModal()">
+    <div class="modal-content" (click)="stopPropagation($event)">
+
+        <button class="close-btn" (click)="closeModal()">
+            <i class="fas fa-times"></i>
+        </button>
+
+        <div class="modal-body">
+            <!-- Left Side: Image -->
+            @if (imageUrl) {
+            <div class="modal-image-col">
+                <img [src]="imageUrl" [alt]="service.name" class="service-large-image">
+            </div>
+            }
+
+            <!-- Right Side: Content & Tabs -->
+            <div class="modal-info-col">
+                <h2 class="service-title">{{ service.name }}</h2>
+                <div class="service-price">GEL {{ service.price }}</div>
+
+                <div class="service-rating-summary">
+                    <i class="fas fa-star" style="color: #f39c12;"></i>
+                    <span>{{ service.rating || '5.0' }} / 5</span>
+                    <span class="review-count">({{ service.reviews?.length || 0 }} reviews)</span>
+                </div>
+
+                <!-- Tabs -->
+                <div class="tabs">
+                    <button class="tab-btn" [class.active]="activeTab() === 'details'"
+                        (click)="activeTab.set('details')">
+                        Details
+                    </button>
+                    <button class="tab-btn" [class.active]="activeTab() === 'reviews'"
+                        (click)="activeTab.set('reviews')">
+                        Reviews
+                    </button>
+                    <div class="tab-indicator" [class.reviews-active]="activeTab() === 'reviews'"></div>
+                </div>
+
+                <!-- Tab Content -->
+                <div class="tab-content-container">
+                    @if (activeTab() === 'details') {
+                    <div class="tab-pane fade-in">
+                        <h3>About this service</h3>
+                        <p class="service-desc">{{ service.description || 'No detailed description available for this
+                            service.' }}</p>
+                    </div>
+                    }
+
+                    @if (activeTab() === 'reviews') {
+                    <div class="tab-pane fade-in">
+                        <div class="reviews-header" style="position: relative; z-index: 9999;">
+                            <h3>Customer Reviews</h3>
+                            @if (auth.currentUser()) {
+                            <button class="btn-rate" style="position: relative; z-index: 9999; cursor: pointer;"
+                                (click)="openRatingModal()">Rate Service</button>
+                            } @else {
+                            <span style="font-size: 14px; color: #888; font-style: italic;">Log in to write a
+                                review</span>
+                            }
+                        </div>
+
+                        <div class="reviews-list">
+                            @if (!service.reviews || service.reviews.length === 0) {
+                            <div class="no-reviews">
+                                <i class="far fa-comment-dots"></i>
+                                <p>No reviews yet. Be the first to rate!</p>
+                            </div>
+                            } @else {
+                            @for (review of service.reviews; track $index) {
+                            <div class="review-item">
+                                <div class="review-avatar">{{ review.firstName.charAt(0) }}{{ review.lastName.charAt(0)
+                                    }}</div>
+                                <div class="review-info">
+                                    <div class="review-name">{{ review.firstName }} {{ review.lastName }}</div>
+                                    <div class="review-stars">
+                                        @for (i of [1,2,3,4,5]; track i) {
+                                        <i class="fas fa-star" [class.filled]="i <= review.rating"></i>
+                                        }
+                                    </div>
+                                    @if (review.text) {
+                                    <p class="review-body">{{ review.text }}</p>
+                                    }
+                                </div>
+                            </div>
+                            }
+                            }
+                        </div>
+                    </div>
+                    }
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="modal-actions">
+                    <button class="btn-cart-large" (click)="addToCart()">
+                        <i class="fas fa-shopping-bag"></i> Add to Cart
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
