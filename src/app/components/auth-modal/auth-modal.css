@@ -98,7 +98,7 @@
 }
 
 .auth-content {
-    padding: 40px 30px;
+    padding: 20px 30px;
     overflow-y: auto;
     /* Custom scrollbar styling for a cleaner look */
     scrollbar-width: thin;
@@ -148,7 +148,7 @@
 .auth-form {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 15px;
 }
 
 .form-row {
@@ -171,7 +171,7 @@
 .form-group input,
 .form-group select {
     width: 100%;
-    padding: 14px;
+    padding: 10px 14px;
     border: 1px solid #ddd;
     border-radius: 8px;
     font-family: 'Montserrat', sans-serif;

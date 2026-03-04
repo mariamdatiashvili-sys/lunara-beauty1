@@ -80,21 +80,23 @@ export class AuthModalComponent {
                     this.isLoading.set(false);
                     console.error('Login API Error:', err);
 
+                    let errorText = 'Unknown error occurred during login.';
                     if (err.error && Array.isArray(err.error.message)) {
-                        this.errorMessage.set(`Login failed: ${err.error.message.join(', ')}`);
+                        errorText = err.error.message.join(', ');
                     } else if (err.error && typeof err.error.message === 'string') {
-                        this.errorMessage.set(`Login failed: ${err.error.message}`);
+                        errorText = err.error.message;
                     } else if (err.error && typeof err.error.error === 'string') {
-                        this.errorMessage.set(`Login failed: ${err.error.error}`);
-                    } else if (err.error) {
-                        try {
-                            this.errorMessage.set(`Raw API Error: ${JSON.stringify(err.error)}`);
-                        } catch (e) {
-                            this.errorMessage.set('Login failed. Unparseable Response.');
-                        }
-                    } else {
-                        this.errorMessage.set(`Login failed: ${err.message || 'Unknown error'}`);
+                        errorText = err.error.error;
+                    } else if (err.message) {
+                        errorText = err.message;
                     }
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Login Failed',
+                        text: errorText,
+                        confirmButtonColor: '#b75c83'
+                    });
                 }
             });
         } else {
@@ -125,28 +127,48 @@ export class AuthModalComponent {
             this.auth.register(payload).subscribe({
                 next: () => {
                     this.isLoading.set(false);
-                    this.closeModal();
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Registration Successful!',
+                        text: 'Successfully registered.',
+                        confirmButtonColor: '#b75c83'
+                    }).then(() => {
+                        this.closeModal();
+                    });
                 },
                 error: (err) => {
                     this.isLoading.set(false);
-                    console.error('Registration API Error:', err);
+                    console.error('Registration API Error Payload:', err);
 
-                    // Everrest usually returns validation errors as an array inside err.error.message
-                    if (err.error && Array.isArray(err.error.message)) {
-                        this.errorMessage.set(`Validation: ${err.error.message.join(', ')}`);
+                    let errorText = 'Unknown error occurred during registration.';
+
+                    if (err.error && Array.isArray(err.error.errorKeys) && err.error.errorKeys.length > 0) {
+                        const keyMappings: { [key: string]: string } = {
+                            'errors.email_in_use': 'This email is already registered.',
+                            'errors.invalid_email': 'Please provide a valid email address.',
+                            'errors.password_too_short': 'Password must be at least 8 characters long.',
+                            'errors.password_too_weak': 'Password requires at least one uppercase, lowercase, number, and special character.',
+                            'errors.invalid_phone_number': 'Phone number format is invalid.',
+                            'errors.user_age': 'Age must be a valid number.',
+                            'errors.user_zipcode': 'Zipcode is invalid.'
+                        };
+                        errorText = err.error.errorKeys.map((key: string) => keyMappings[key] || key).join('<br>');
+                    } else if (err.error && Array.isArray(err.error.message)) {
+                        errorText = err.error.message.join('<br>'); // Join with HTML break for Swal
                     } else if (err.error && typeof err.error.message === 'string') {
-                        this.errorMessage.set(`Error: ${err.error.message}`);
+                        errorText = err.error.message;
                     } else if (err.error && typeof err.error.error === 'string') {
-                        this.errorMessage.set(`Error: ${err.error.error}`);
-                    } else if (err.error) {
-                        try {
-                            this.errorMessage.set(`Raw API Error: ${JSON.stringify(err.error)}`);
-                        } catch (e) {
-                            this.errorMessage.set('Registration failed. Bad Request (unparseable).');
-                        }
-                    } else {
-                        this.errorMessage.set(`Registration failed: ${err.message || 'Unknown error'}`);
+                        errorText = err.error.error;
+                    } else if (err.message) {
+                        errorText = err.message;
                     }
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Registration Failed',
+                        html: errorText, // Using html so <br> works for multiple validation errors
+                        confirmButtonColor: '#b75c83'
+                    });
                 }
             });
         }
