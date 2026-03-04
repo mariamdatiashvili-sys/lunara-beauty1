@@ -1668,6 +1668,7 @@ footer {
   border: 1px solid #c88b8b;
   padding: 10px 25px;
   border-radius: 30px;
+  font-family: inherit;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;

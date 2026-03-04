@@ -129,8 +129,45 @@ input[type="range"]::-moz-range-thumb:active {
 
 .price-label {
     font-size: 15px;
-    color: #4a3b3b;
+    color: #6a1a38;
+    /* Darker plum */
     white-space: nowrap;
     font-family: 'Playfair Display', serif;
-    font-weight: 500;
+    font-weight: 700;
+    /* Bold */
+}
+
+/* Category Chips */
+.chip {
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 1px solid #e2aeb3;
+    background-color: transparent;
+    color: #b75c83;
+    font-family: inherit;
+    /* Inherits the standard 'Playfair Display' or global sans-serif */
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    /* Smooth snap transition */
+}
+
+.chip:hover {
+    background-color: #fdf2f4;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(183, 92, 131, 0.15);
+}
+
+.chip:active {
+    transform: scale(0.95);
+}
+
+.chip.active {
+    background-color: #b75c83;
+    color: white;
+    border-color: #b75c83;
+    transform: scale(1.05);
+    /* Zoom in on active selection */
+    box-shadow: 0 4px 10px rgba(183, 92, 131, 0.25);
 }

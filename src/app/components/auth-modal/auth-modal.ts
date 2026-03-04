@@ -24,6 +24,7 @@ export class AuthModalComponent {
     lastName = signal('');
     email = signal('');
     password = signal('');
+    showPassword = signal(false);
 
     // Additional Everrest Required Fields
     age = signal<number | null>(null);
@@ -40,6 +41,11 @@ export class AuthModalComponent {
     toggleMode(newMode: 'login' | 'register') {
         this.mode.set(newMode);
         this.errorMessage.set(null);
+        this.showPassword.set(false); // Reset visibility when switching tabs
+    }
+
+    togglePasswordVisibility() {
+        this.showPassword.update(v => !v);
     }
 
     submit() {
@@ -81,8 +87,16 @@ export class AuthModalComponent {
                     console.error('Login API Error:', err);
 
                     let errorText = 'Unknown error occurred during login.';
-                    if (err.error && Array.isArray(err.error.message)) {
-                        errorText = err.error.message.join(', ');
+
+                    if (err.error && Array.isArray(err.error.errorKeys) && err.error.errorKeys.length > 0) {
+                        const keyMappings: { [key: string]: string } = {
+                            'errors.incorrect_email_or_password': 'Incorrect email or password. Please try again.',
+                            'errors.user_not_found': 'No account found with this email.',
+                            'errors.token_not_found': 'Authentication session expired or invalid.'
+                        };
+                        errorText = err.error.errorKeys.map((key: string) => keyMappings[key] || key).join('<br>');
+                    } else if (err.error && Array.isArray(err.error.message)) {
+                        errorText = err.error.message.join('<br>');
                     } else if (err.error && typeof err.error.message === 'string') {
                         errorText = err.error.message;
                     } else if (err.error && typeof err.error.error === 'string') {

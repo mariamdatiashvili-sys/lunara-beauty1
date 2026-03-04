@@ -42,11 +42,14 @@
     top: 15px;
     right: 20px;
     background: #f1f1f1;
-    border: none;
-    width: 36px;
-    height: 36px;
+    border: 2px solid transparent;
+    width: 44px;
+    /* Increased from 36px */
+    height: 44px;
+    /* Increased from 36px */
     border-radius: 50%;
-    font-size: 18px;
+    font-size: 22px;
+    /* Increased from 18px */
     color: #333;
     cursor: pointer;
     z-index: 10;
@@ -54,6 +57,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .close-btn:hover {
@@ -273,6 +277,7 @@
     color: #fff;
     border: none;
     padding: 16px;
+    font-family: inherit;
     font-size: 16px;
     font-weight: 600;
     border-radius: 8px;

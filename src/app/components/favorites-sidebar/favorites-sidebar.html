@@ -18,25 +18,31 @@
         } @else {
         @for (item of favorites(); track $index) {
         <div class="cart-item"
-            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #f9f9f9;">
-            <div style="display: flex; align-items: center; gap: 15px;">
-                @if (item.image) {
-                <img [src]="item.image" alt="{{item.name}}"
-                    style="width: 50px; height: 50px; object-fit: cover; border-radius: 8px;">
-                }
-                <div class="item-info">
-                    <h4 style="margin: 0 0 5px 0; font-size: 1rem; color: #333;">{{ item.name }}</h4>
-                    <p style="margin: 0 0 8px 0; color: #888; font-size: 0.9rem;">GEL {{ item.price }}</p>
+            style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid #f0f0f0;">
+
+            <div style="flex-shrink: 0;">
+                <img [src]="getServiceImage(item)" alt="{{item.name}}"
+                    style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            </div>
+
+            <div class="item-info" style="flex-grow: 1; display: flex; flex-direction: column; gap: 5px;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <h4 style="margin: 0; font-size: 1rem; color: #333; line-height: 1.2;">{{ item.name }}</h4>
+                    <button class="remove-btn" (click)="remove(item.id)"
+                        style="color: #ff4d4d; font-size: 20px; background: none; cursor: pointer; border: none; padding: 0; line-height: 1;"
+                        title="Remove favorite">&times;</button>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px;">
+                    <p style="margin: 0; color: #6a1a38; font-weight: 700; font-size: 0.95rem;">GEL {{ item.price }}</p>
                     <button (click)="addToCart(item)"
-                        style="background: #e2aeb3; color: white; border: none; padding: 5px 12px; border-radius: 15px; font-size: 0.8rem; cursor: pointer; transition: background 0.3s; display: flex; align-items: center; gap: 5px;"
-                        onmouseover="this.style.background='#c88b8b'" onmouseout="this.style.background='#e2aeb3'">
-                        <i class="fas fa-shopping-cart" style="font-size: 0.75rem;"></i> Add to Cart
+                        style="background: #e2aeb3; color: white; border: none; padding: 6px 14px; border-radius: 20px; font-family: inherit; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 4px rgba(226, 174, 179, 0.3);"
+                        onmouseover="this.style.background='#b75c83'; this.style.transform='scale(1.05)'"
+                        onmouseout="this.style.background='#e2aeb3'; this.style.transform='scale(1)'">
+                        <i class="fas fa-shopping-cart" style="font-size: 0.75rem;"></i> Add
                     </button>
                 </div>
             </div>
-            <button class="remove-btn" (click)="remove(item.id)"
-                style="color: #ff4d4d; font-size: 20px; background: none; cursor: pointer; border: none;"
-                title="Remove favorite">&times;</button>
         </div>
         }
         }

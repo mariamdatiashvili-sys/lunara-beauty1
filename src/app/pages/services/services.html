@@ -8,6 +8,17 @@
 
 <!-- Controls Section -->
 <div class="container" style="margin-bottom: 30px; text-align: center;">
+
+    <!-- Category Chips -->
+    <div class="category-chips"
+        style="margin-bottom: 20px; display: flex; justify-content: center; flex-wrap: wrap; gap: 10px;">
+        @for (category of categories; track category) {
+        <button class="chip" [class.active]="selectedCategory() === category" (click)="selectedCategory.set(category)">
+            {{ category }}
+        </button>
+        }
+    </div>
+
     <div class="filter-wrapper"
         style="margin-bottom: 20px; display: flex; justify-content: center; flex-wrap: wrap; gap: 10px;">
         <input type="text" [(ngModel)]="searchTerm" class="filter-input search-input-wide"

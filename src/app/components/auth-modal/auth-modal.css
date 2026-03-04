@@ -172,12 +172,13 @@
 .form-group select {
     width: 100%;
     padding: 10px 14px;
-    border: 1px solid #ddd;
+    border: 1px solid #ccc;
+    /* Slightly darker default border for contrast */
     border-radius: 8px;
     font-family: 'Montserrat', sans-serif;
     font-size: 14px;
     outline: none;
-    transition: border-color 0.3s;
+    transition: all 0.3s ease;
     box-sizing: border-box;
     background: #fdfdfd;
     appearance: none;
@@ -186,12 +187,15 @@
 
 .form-group input:focus,
 .form-group select:focus {
-    border-color: #e2aeb3;
+    border-color: #b75c83;
     background: #fff;
+    box-shadow: 0 0 8px rgba(183, 92, 131, 0.25);
+    /* Soft pink glow */
 }
 
 .btn-submit {
-    background: #2c3e50;
+    background: #b75c83;
+    /* Plum color */
     color: #fff;
     border: none;
     padding: 16px;
@@ -199,14 +203,17 @@
     font-weight: 600;
     border-radius: 8px;
     cursor: pointer;
-    transition: background 0.3s, transform 0.2s;
+    transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
     margin-top: 10px;
     width: 100%;
+    box-shadow: 0 4px 6px rgba(183, 92, 131, 0.2);
 }
 
 .btn-submit:hover:not([disabled]) {
-    background: #1a252f;
+    background: #6a1a38;
+    /* Darker plum on hover */
     transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(183, 92, 131, 0.3);
 }
 
 .btn-submit[disabled] {

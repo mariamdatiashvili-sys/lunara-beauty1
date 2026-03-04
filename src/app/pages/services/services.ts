@@ -55,6 +55,8 @@ export class ServicesComponent {
 
   // Filters
   searchTerm = signal('');
+  selectedCategory = signal('All');
+  categories = ['All', 'Eyes', 'Skin', 'Body', 'Nails', 'Hair'];
   minPrice = signal<number>(0);
   maxPrice = signal<number>(500);
   minRating = signal<number | null>(null); // New Rating Filter
@@ -105,13 +107,26 @@ export class ServicesComponent {
       const matchesSearch = name.toLowerCase().includes(term) ||
         desc.toLowerCase().includes(term);
 
+      // Category matching logic
+      const category = this.selectedCategory();
+      let matchesCategory = true;
+      if (category !== 'All') {
+        const lowerCat = category.toLowerCase();
+        // Specifically map 'Eyes' to 'lash' and 'brow' since service names often use those terms
+        if (lowerCat === 'eyes') {
+          matchesCategory = name.toLowerCase().includes('lash') || name.toLowerCase().includes('brow') || name.toLowerCase().includes('eye');
+        } else {
+          matchesCategory = name.toLowerCase().includes(lowerCat) || desc.toLowerCase().includes(lowerCat);
+        }
+      }
+
       const price = Number(s.price) || 0;
       const matchesPrice = price >= minP && price <= maxP;
 
       const rating = Number(s.rating) || 5.0; // Assume 5.0 if not set
       const matchesRating = rating >= minR;
 
-      return matchesSearch && matchesPrice && matchesRating;
+      return matchesSearch && matchesCategory && matchesPrice && matchesRating;
     });
   });
 
@@ -273,7 +288,8 @@ export class ServicesComponent {
     if (index === -1) return;
 
     // 2. Clone service & reviews array to trigger change detection
-    const service = { ...this.services()[index] };
+    const originalService = this.services()[index];
+    const service = { ...originalService };
     const currentReviews = service.reviews ? [...service.reviews] : [];
 
     // 3. Add new review
@@ -284,23 +300,41 @@ export class ServicesComponent {
     const totalRating = currentReviews.reduce((sum, rev) => sum + rev.rating, 0);
     service.rating = Number((totalRating / currentReviews.length).toFixed(1));
 
-    // 5. Update local state
+    // 5. Update local state optimistically
     const allServices = [...this.services()];
     allServices[index] = service;
     this.services.set(allServices);
 
-    // If this is the currently expanded service, update detailed view too
     if (this.detailedService()?.id === serviceId) {
       this.detailedService.set(service);
     }
 
-    // In a real app we would PUT/PATCH this to MockAPI,
-    // but MockAPI structure doesn't support nested arrays natively without setup.
-    // For now we simulate success locally.
-    Swal.fire({
-      icon: 'success',
-      title: 'Review Submitted',
-      text: 'Thank you for your feedback!'
+    // 6. Persist to Backend via PUT
+    this.api.put(`products/${serviceId}`, service).subscribe({
+      next: () => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Review Submitted',
+          text: 'Thank you for your feedback!'
+        });
+      },
+      error: (err) => {
+        console.error('Failed to save review:', err);
+        // Revert local state on failure
+        const revertedServices = [...this.services()];
+        revertedServices[index] = originalService;
+        this.services.set(revertedServices);
+
+        if (this.detailedService()?.id === serviceId) {
+          this.detailedService.set(originalService);
+        }
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Failed to Save',
+          text: 'There was an issue saving your review. Please try again later.'
+        });
+      }
     });
   }
 

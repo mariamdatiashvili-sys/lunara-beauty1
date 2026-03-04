@@ -2,12 +2,12 @@ import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../services/api';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { BookingModalComponent } from '../../components/booking-modal/booking-modal';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink, FormsModule, CommonModule, BookingModalComponent],
+  imports: [RouterLink, FormsModule, CommonModule, BookingModalComponent, NgOptimizedImage],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
